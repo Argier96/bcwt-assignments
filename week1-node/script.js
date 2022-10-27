@@ -1,4 +1,4 @@
-'require strict'
+'use strict'
 
 const _ = require("lodash")
 
