@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-let counter = 0;
 /*
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -23,18 +22,15 @@ app.set('view engine', 'pug');
 app.get('/catinfo',(req,res) => {
     const cat = {
         name: "Frank the cat",
-        birthdate: "2010-12-25",
-        weight: 15,
+        birthdate: "2020-10-05",
+        weight: 12,
       };
       res.json(cat);    
 })
 
-app.get('/test',(req,res) =>{
+app.get('/',(req,res) =>{
   res.render('test', {
-    title: "myTitle",
-    header1: "myHeader",
-    header2: "header2",
-    exampleText: "Page isrequested "+(counter++)+" times",
+    title: "Page Using PUG"
   });
 })
 app.listen(port, () => {

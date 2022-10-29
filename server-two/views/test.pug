@@ -1,8 +1,12 @@
 html 
     head 
-        title= title  
+        title= title 
+        link(rel ="stylesheet" href="/css/style.css")          
     body 
-        h1= header1
-        h2= header2
-        p= exampleText 
-
+        h1= "Click on the cat"
+        article 
+            h2= name
+            img(src="/img/cat.jpg", alt="cat image").big.small.trans
+            p= age 
+            p= weight
+        script(src='/js/main.js')
