@@ -1,4 +1,5 @@
 node_modules/
 week2/week2-starter/uploads/*
 !week2/week2-starter/uploads/.gitkeep
+.env
 
