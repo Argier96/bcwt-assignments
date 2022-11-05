@@ -22,7 +22,19 @@ const getUserById = async (req,userId) => {
   }
 };
 
+const deleteUser = async(req,userId) => {
+  try{
+    const [rows] = await promisePool.query("DELETE FROM wop_user WHERE user_id = ?",[userId]);
+    console.log(rows);
+    return rows[0];
+  } catch(e){
+    res.status(500).send(e.message);
+  }
+};
+
+
 module.exports = {
   getAllUsers,
   getUserById,
+  deleteUser,
 };

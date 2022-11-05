@@ -34,9 +34,15 @@ const createUser = (req,res) =>{
     const message = `Username: ${req.body.name} email : ${req.body.email}`;
     res.send(message);
 };
-const deleteUser = (req,res) =>{
-    res.send('From this point you can delete users.');
-
+const deleteUser = async (req,res) =>{
+    const deleteUserByID = await userModel.deleteUser(res, req.params.userId);
+    if(!deleteUserByID){
+        console.log("Delete user sucessfull.")
+        res.json(deleteUserByID);
+    }else{
+        console.log("Delete user not sucessfull.")
+        res.sendStatus(404);
+    }
 };
 
 module.exports = {

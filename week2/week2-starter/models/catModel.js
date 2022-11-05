@@ -22,8 +22,18 @@ const getCatById = async (req,catId) => {
     res.status(500).send(e.message);
   }
 };
+const deleteCat = async(req,catId) => {
+  try{
+    const [rows] = await promisePool.query("DELETE FROM wop_cat WHERE cat_id = ?",[catId]);
+    return rows[0];
+  } catch(e){
+    res.status(500).send(e.message);
+  }
+};
+
 
 module.exports = {
   getAllCats,
   getCatById,
+  deleteCat,
 };

@@ -24,7 +24,16 @@ const createCat  = (req, res)=> {
     console.log(req.body);
     res.send("Adding cat");
 };
-const deleteCat = (req, res) => {};
+const deleteCat = async (req,res) =>{
+    const deleteCatByID = await catModel.deleteCat(res, req.params.catId);
+    if(!deleteCatByID){
+        console.log("Deleting cat sucessfull.")
+        res.json(deleteCatByID);
+    }else{
+        console.log("Deleting cat not sucessfull.")
+        res.sendStatus(404);
+    }
+  };
 
 module.exports = {
     getCat,
