@@ -3,9 +3,11 @@
 const userModel = require('../models/userModel');
 const { use } = require('../routes/catRoute');
 
-const users = userModel.users;
 
-const getUsers = (req,res) =>{
+
+const getUsers = async (req,res) =>{
+    const users = await userModel.getAllUsers();
+    
     users.map(user => {
         //remove password property for user items
         delete user.password;
@@ -14,14 +16,11 @@ const getUsers = (req,res) =>{
     res.json(users);
 };
 
-const getUser = (req,res) =>{
-    const user = users.filter(user => {
-        delete user.password;
-        return req.params.userId == user.id;
-    })[0];
-
-    if(user){
-        res.json(user);
+const getUser =async (req,res) =>{
+    const userById = await userModel.getUserById(res, req.params.userId);
+    if(userById){
+        delete userById.password;
+        res.json(userById);
     }else {
         res.sendStatus(404);
     }
