@@ -29,10 +29,14 @@ const modifyUser = (req,res) =>{
     res.send('From this point you can edit users.');
 
 };
-const createUser = (req,res) =>{
-    console.log(req.body)
-    const message = `Username: ${req.body.name} email : ${req.body.email}`;
-    res.send(message);
+const createUser = async(req,res) =>{
+    const userAdd = await userModel.addUser(res,req);
+    if(!userAdd){
+        res.send("user add succesfull.");
+
+    }else{
+        res.sendStatus(502);
+    }
 };
 const deleteUser = async (req,res) =>{
     const deleteUserByID = await userModel.deleteUser(res, req.params.userId);

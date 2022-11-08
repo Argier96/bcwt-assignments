@@ -3,7 +3,7 @@
 
 const catModel= require ('../models/catModel');
 const getCats = async (req, res) => {
-    const cats = await catModel.getAllCats();
+    const cats = await catModel.getAllCats(req,res);
     res.json(cats);
   };
 const getCat = async (req, res) => {
@@ -20,9 +20,15 @@ const getCat = async (req, res) => {
     
 };
 const modifyCat = (req, res) => {};
-const createCat  = (req, res)=> {
-    console.log(req.body);
-    res.send("Adding cat");
+
+const createCat  = async(req, res)=> {
+    const catAdd = await catModel.addCat(res,req);
+    if(!catAdd){
+        res.send("cat add succesfull.");
+
+    }else{
+        res.sendStatus(502);
+    }
 };
 const deleteCat = async (req,res) =>{
     const deleteCatByID = await catModel.deleteCat(res, req.params.catId);

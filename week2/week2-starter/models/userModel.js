@@ -32,9 +32,18 @@ const deleteUser = async(req,userId) => {
   }
 };
 
+const addUser = async (res,req) =>{ 
+  try{
+    const [rows] = await promisePool.query("INSERT INTO wop_user(name,email,password) VALUE(?,?,?)",[req.body.name, req.body.email, req.body.passwd]);
+    return rows[0];
+  }catch(e){
+    res.status(501).send(e.message);
+  }
+}
 
 module.exports = {
   getAllUsers,
   getUserById,
   deleteUser,
+  addUser,
 };
