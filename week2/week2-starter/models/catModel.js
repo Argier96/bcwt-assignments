@@ -39,6 +39,14 @@ const addCat = async (res,req) =>{
     res.status(501).send(e.message);
   }
 }
+const updateCat = async (res,req) =>{
+  try{
+    const [rows] = await promisePool.query("UPDATE wop_cat SET name =?, weight = ?, owner = ?, birthdate = ? WHERE cat_id = ? ",[req.body.name, req.body.weight, req.body.owner, req.body.birthdate, req.body.id]);
+    return rows[0];
+  }catch(e){
+    res.status(501).send(e.message);
+  }
+}
 
 
 module.exports = {
@@ -46,4 +54,5 @@ module.exports = {
   getCatById,
   deleteCat,
   addCat,
+  updateCat,
 };

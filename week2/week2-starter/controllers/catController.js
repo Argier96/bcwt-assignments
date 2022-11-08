@@ -19,7 +19,14 @@ const getCat = async (req, res) => {
 
     
 };
-const modifyCat = (req, res) => {};
+const modifyCat = async (req, res) => {
+    const catModify = await catModel.updateCat(res,req);
+    if(!catModify){
+        res.send("cat modified");
+    }else {
+      res.sendStatus(502);  
+    }
+};
 
 const createCat  = async(req, res)=> {
     const catAdd = await catModel.addCat(res,req);
