@@ -1,14 +1,14 @@
 'use strict';
 // catController
-
 const catModel= require ('../models/catModel');
+const {validationResult} = require('express-validator');
+
 const getCats = async (req, res) => {
-    const cats = await catModel.getAllCats(req,res);
+    const cats = await catModel.getAllCats(res);
     res.json(cats);
   };
+
 const getCat = async (req, res) => {
-   // res.send('From this endpoint you can get cats info with id: '+ req.params.catId);
-   
    //choose only one object with matching id
    const cat = await catModel.getCatById(res, req.params.catId);
    if (cat){
@@ -29,12 +29,20 @@ const modifyCat = async (req, res) => {
 };
 
 const createCat  = async(req, res)=> {
-    const catAdd = await catModel.addCat(res,req);
-    if(!catAdd){
-        res.send("cat add succesfull.");
-
-    }else{
-        res.sendStatus(502);
+    const errors = validationResult(req);
+    if (!req.file) {
+        res.status(400).json({message: 'file missing or invalid'});
+    }
+    else if (errors.isEmpty() && req.file) {
+        const cat = req.body;
+        cat.filename = req.file.filename;
+        console.log('creating a new cat:', cat);
+        const catId = await catModel.addCat(cat, res);
+        res.status(201).json({message: 'cat created', catId});
+    } else {
+        console.log('validation errors', errors);
+        res.status(400).json({message: 'cat creation failed',
+        errors: errors.array()});
     }
 };
 const deleteCat = async (req,res) =>{
