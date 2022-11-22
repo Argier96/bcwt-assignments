@@ -25,12 +25,18 @@ router.get('/cat', catController.getCats)
     .get('/cat/:catId', catController.getCat)
     .post('/cat',
       upload.single('cat'),
-      body('name').isAlphanumeric(),
+      body('name').isAlphanumeric().trim().escape(),
       body('birthdate').isDate(),
       body('weight').isFloat({min: 0.1, max: 30}),
       body('owner').isInt({min: 1}),
       catController.createCat) 
-    .put('/cat',catController.modifyCat)
+    .put('/cat',
+      body('name').isAlphanumeric().trim().escape(),
+      body('birthdate').isDate(),
+      body('weight').isFloat({min: 0.1, max: 30}),
+      body('owner').isInt({min: 1}),
+      body('id').isInt(),
+      catController.modifyCat)
     .delete('/cat/:catId', catController.deleteCat);
 
 module.exports = router;

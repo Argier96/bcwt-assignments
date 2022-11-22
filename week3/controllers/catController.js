@@ -20,11 +20,17 @@ const getCat = async (req, res) => {
     
 };
 const modifyCat = async (req, res) => {
-    const catModify = await catModel.updateCat(res,req);
-    if(!catModify){
-        res.send("cat modified");
-    }else {
-      res.sendStatus(502);  
+    const errors = validationResult(req);
+    if(errors.isEmpty()){
+        const catModify = await catModel.updateCat(res,req);
+        if(!catModify){
+            res.send("cat modified");
+        }else {
+            res.sendStatus(502);  
+        }}else {
+            console.log('validation errors', errors);
+            res.status(400).json({message: 'cat update failed',
+            errors: errors.array()});
     }
 };
 
