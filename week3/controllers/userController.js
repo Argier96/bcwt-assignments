@@ -1,7 +1,7 @@
 'use strict';
 
 const userModel = require('../models/userModel');
-const { use } = require('../routes/catRoute');
+const {validationResult} = require('express-validator');
 
 
 
@@ -29,13 +29,19 @@ const modifyUser = (req,res) =>{
     res.send('From this point you can edit users.');
 
 };
-const createUser = async(req,res) =>{
-    const userAdd = await userModel.addUser(res,req);
-    if(!userAdd){
-        res.send("user add succesfull.");
+const createUser=async (req,res)=>{
+    const newUser=req.body;
+    if (!newUser.role) {
+        newUser.role=1
+    }
+    const errors=validationResult(req);
+    
+    if(errors.isEmpty()){
+        const result=await userModel.addUser(newUser,res);
+        res.status(201).json({message:'user created',userId:result})
 
     }else{
-        res.sendStatus(502);
+        res.status(400).json({message:'Failed to create user',errors:errors.array()})
     }
 };
 const deleteUser = async (req,res) =>{
