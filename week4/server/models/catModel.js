@@ -24,9 +24,9 @@ const getCatById = async (res,catId) => {
     res.status(500).send(e.message);
   }
 };
-const deleteCat = async(catId,res) => {
+const deleteCat = async(catId,owner,res) => {
   try{
-    const [rows] = await promisePool.query("DELETE FROM wop_cat WHERE cat_id = ?",[catId]);
+    const [rows] = await promisePool.query("DELETE FROM wop_cat WHERE cat_id = ? AND owner = ?",[catId,owner]);
     return rows[0];
   } catch(e){
     console.error("error", e.message);

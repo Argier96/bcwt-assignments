@@ -7,6 +7,7 @@ const userController = require('../controllers/userController');
 
 router.get('/user', userController.getUsers)
     .get('/user/:userId', userController.getUser)
+    .get('/token', userController.checkToken)
     .post('/user',
         body("name").isLength({ min: 3 }).trim().escape(),
         body("email").isEmail().normalizeEmail(),

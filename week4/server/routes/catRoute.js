@@ -25,7 +25,7 @@ router.get('/cat', catController.getCats)
     .get('/cat/:catId', catController.getCat)
     .post('/cat',
       upload.single('cat'),
-      body('name').isAlphanumeric().trim().escape(),
+      body('name').isLength({min: 2}).trim().escape(),
       body('birthdate').isDate(),
       body('weight').isFloat({min: 0.1, max: 30}),
       body('owner').isInt({min: 1}),
